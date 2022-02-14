@@ -22,7 +22,6 @@ class MyRobot(wpilib.TimedRobot):
         self.rightFront.setInverted(True)
         self.rightRear.setInverted(True)
 
-
         self.drive = wpilib.drive.MecanumDrive(self.leftFront, self.leftRear, self.rightFront, self.rightRear)
         
         self.stick = wpilib.Joystick(0)
@@ -46,7 +45,7 @@ class MyRobot(wpilib.TimedRobot):
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
         self.drive.drivePolar(self.stick.getMagnitude(), self.stick.getDirectionDegrees(), self.stick.getTwist())
-        print(self.stick.getMagnitude())
+        # print(self.stick.getMagnitude())
         
         # self.drive.driveCartesian(self.stick.getY(),self.stick.getX(),self.stick.getZ(),0)
 
