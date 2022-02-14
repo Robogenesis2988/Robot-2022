@@ -6,8 +6,10 @@
 import wpilib
 import wpilib.drive
 
+import drivetrain
 
-class MyRobot(wpilib.TimedRobot):
+
+class Robot(wpilib.TimedRobot):
     def robotInit(self):
         """
         This function is called upon program startup and
@@ -19,11 +21,14 @@ class MyRobot(wpilib.TimedRobot):
         self.rightFront = wpilib.Talon(2)
         self.rightRear = wpilib.Talon(3)
 
-        self.rightFront.setInverted(True)
-        self.rightRear.setInverted(True)
 
-        self.drive = wpilib.drive.MecanumDrive(self.leftFront, self.leftRear, self.rightFront, self.rightRear)
-        
+        # self.drive = wpilib.drive.MecanumDrive(self.leftFront, self.leftRear, self.rightFront, self.rightRear)
+        self.drivetrain = drivetrain.MecanumDrive(self.leftFront, self.leftRear, self.rightFront, self.rightRear)
+        self.drivetrain.rightInverted(True)
+
+        # self.rightFront.setInverted(True)
+        # self.rightRear.setInverted(True)
+
         self.stick = wpilib.Joystick(0)
         
         self.timer = wpilib.Timer()
@@ -38,16 +43,13 @@ class MyRobot(wpilib.TimedRobot):
 
         # Drive for two seconds
         if self.timer.get() < 2.0:
-            self.drive.arcadeDrive(-0.5, 0)  # Drive forwards at half speed
+            self.drivetrain.MecanumDrive.arcadeDrive(-0.5, 0)  # Drive forwards at half speed
         else:
-            self.drive.arcadeDrive(0, 0)  # Stop robot
+            self.drivetrain.MecanumDrive.arcadeDrive(0, 0)  # Stop robot
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
-        self.drive.drivePolar(self.stick.getMagnitude(), self.stick.getDirectionDegrees(), self.stick.getTwist())
-        # print(self.stick.getMagnitude())
-        
-        # self.drive.driveCartesian(self.stick.getY(),self.stick.getX(),self.stick.getZ(),0)
+        self.drivetrain.drive(self.stick)
 
 if __name__ == "__main__":
-    wpilib.run(MyRobot)
+    wpilib.run(Robot)
