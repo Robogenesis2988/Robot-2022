@@ -13,15 +13,19 @@ class MyRobot(wpilib.TimedRobot):
         This function is called upon program startup and
         should be used for any initialization code.
         """
-        
+
         self.left_motor = wpilib.Talon(0)
         self.right_motor = wpilib.Talon(1)
+        self.solenoidDump = wpilib.DoubleSolenoid(wpilib.PneumaticsModuleType.CTREPCM, 1,0)
+        self.solenoid2 = wpilib.DoubleSolenoid(wpilib.PneumaticsModuleType.CTREPCM, 3,2)
+        self.solenoid3 = wpilib.DoubleSolenoid(wpilib.PneumaticsModuleType.CTREPCM, 5,4)
 
         self.drive = wpilib.drive.MecanumDrive(self.left_motor, self.right_motor)
         
         self.stick = wpilib.Joystick(0)
         
         self.timer = wpilib.Timer()
+        
 
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
@@ -40,6 +44,10 @@ class MyRobot(wpilib.TimedRobot):
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
         self.drive.driveCartesian(self.stick.getY(), self.stick.getX())
+        if self.stick.getRawButtonPressed(2): 
+            self.solenoidDump.toggle()
+            if self.solenoidDump.get() == self.solenoidDump.Value.kOff:
+                self.solenoidDump.set(self.solenoidDump.Value.kForward)
 
 
 if __name__ == "__main__":
