@@ -7,7 +7,7 @@ class DriveTrain:
         self.leftRear = leftRear
         self.rightFront = rightFront
         self.rightRear = rightRear
-    def drive(self,Joystick) -> None:
+    def drive(self,Joystick: wpilib.Joystick) -> None:
         print("THIS SHOULD BE REPLACED!")
     def rightInverted(self, isInverted: bool) -> None:
         self.rightFront.setInverted(isInverted)
