@@ -34,7 +34,6 @@ class MyRobot(wpilib.TimedRobot):
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
-
         # Drive for two seconds
         if self.timer.get() < 2.0:
             self.drive.arcadeDrive(-0.5, 0)  # Drive forwards at half speed
