@@ -21,6 +21,9 @@ class DriveTrain:
         self.leftFront.setInverted(isInverted)
         self.leftRear.setInverted(isInverted)
 
+    def driveForward(speed: float, duration: float):
+        pass
+
 
 class MecanumDrive(DriveTrain):
     def __init__(self, leftFront: wpilib.interfaces.MotorController, leftRear: wpilib.interfaces.MotorController, rightFront: wpilib.interfaces.MotorController, rightRear: wpilib.interfaces.MotorController) -> None:
