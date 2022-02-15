@@ -18,6 +18,10 @@
     },
     "windows": {
       "/SmartDashboard/Field": {
+        "Robot": {
+          "image": "C:\\Users\\robotics\\Documents\\GitHub\\Robot-2022\\2022-field.png"
+        },
+        "image": "C:\\Users\\robotics\\Documents\\GitHub\\Robot-2022\\2022-field.png",
         "window": {
           "visible": true
         }
