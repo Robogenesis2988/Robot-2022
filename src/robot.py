@@ -34,11 +34,14 @@ class MyRobot(wpilib.TimedRobot):
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
-        # Drive for two seconds
-        if self.timer.get() < 2.0:
-            self.drive.arcadeDrive(-0.5, 0)  # Drive forwards at half speed
-        else:
-            self.drive.arcadeDrive(0, 0)  # Stop robot
+        if self.timer.get() < 1:
+            self.drive.drivePolar(.25,0,0) #drives foward for one second at 1/4 speed
+        elif (self.timer.get() > 1) & (self.timer.get() < 4):
+            self.solenoidDump.set(self.solenoidDump.Value.kForward) #from 1 - 4 seconds the solenoid extends 
+        elif (self.timer.get() > 4) & (self.timer.get() < 6):
+            self.solenoidDump.set(self.solenoidDump.Value.kReverse) #from 4-6 seconds the solenoid retracts
+        elif (self.timer.get() > 6) & (self.timer.get() < 8):
+            self.drive.drivePolar(0,0,.72) #The robot does a 180 turn in 2 seconds
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
