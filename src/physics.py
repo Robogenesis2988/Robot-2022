@@ -27,8 +27,6 @@ class PhysicsEngine:
         self.rf_motor = wpilib.simulation.PWMSim(2)
         self.rr_motor = wpilib.simulation.PWMSim(3)
 
-        
-
         # Gyro
         self.gyro = wpilib.simulation.AnalogGyroSim(1)
 
@@ -49,10 +47,10 @@ class PhysicsEngine:
         rf_motor = self.rf_motor.getSpeed()
         rr_motor = self.rr_motor.getSpeed()
 
-        
         # speeds = self.drivetrain.calculate(lf_motor, lr_motor, rf_motor, rr_motor)
         # self.physics_controller.move_robot()
-        speeds = self.drivetrain.calculate(lf_motor, lr_motor, rf_motor, rr_motor)
+        speeds = self.drivetrain.calculate(
+            lf_motor, lr_motor, rf_motor, rr_motor)
         pose = self.physics_controller.drive(speeds, tm_diff)
 
         # pose = self.physics_controller.drive(speeds, tm_diff)
@@ -64,4 +62,3 @@ class PhysicsEngine:
         # -> FRC gyros are positive clockwise, but the returned pose is positive
         #    counter-clockwise
         self.gyro.setAngle(-pose.rotation().degrees())
-

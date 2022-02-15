@@ -6,21 +6,31 @@
 import wpilib
 import wpilib.drive
 
+import drivetrain
 
-class MyRobot(wpilib.TimedRobot):
+
+class Robot(wpilib.TimedRobot):
     def robotInit(self):
         """
         This function is called upon program startup and
         should be used for any initialization code.
         """
-        
-        self.left_motor = wpilib.Talon(0)
-        self.right_motor = wpilib.Talon(1)
 
-        self.drive = wpilib.drive.MecanumDrive(self.left_motor, self.right_motor)
-        
+        self.leftFront = wpilib.Talon(0)
+        self.leftRear = wpilib.Talon(1)
+        self.rightFront = wpilib.Talon(2)
+        self.rightRear = wpilib.Talon(3)
+
+        # self.drive = wpilib.drive.MecanumDrive(self.leftFront, self.leftRear, self.rightFront, self.rightRear)
+        self.drivetrain = drivetrain.MecanumDrive(
+            self.leftFront, self.leftRear, self.rightFront, self.rightRear)
+        self.drivetrain.rightInverted(True)
+
+        # self.rightFront.setInverted(True)
+        # self.rightRear.setInverted(True)
+
         self.stick = wpilib.Joystick(0)
-        
+
         self.timer = wpilib.Timer()
 
     def autonomousInit(self):
@@ -33,14 +43,15 @@ class MyRobot(wpilib.TimedRobot):
 
         # Drive for two seconds
         if self.timer.get() < 2.0:
-            self.drive.arcadeDrive(-0.5, 0)  # Drive forwards at half speed
+            # Drive forwards at half speed
+            self.drivetrain.MecanumDrive.arcadeDrive(-0.5, 0)
         else:
-            self.drive.arcadeDrive(0, 0)  # Stop robot
+            self.drivetrain.MecanumDrive.arcadeDrive(0, 0)  # Stop robot
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
-        self.drive.driveCartesian(self.stick.getY(), self.stick.getX())
+        self.drivetrain.drive(self.stick, 0.2)
 
 
 if __name__ == "__main__":
-    wpilib.run(MyRobot)
+    wpilib.run(Robot)
