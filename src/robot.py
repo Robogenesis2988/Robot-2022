@@ -22,9 +22,11 @@ class Robot(wpilib.TimedRobot):
         self.rightRear = wpilib.Talon(3)
 
         # self.drive = wpilib.drive.MecanumDrive(self.leftFront, self.leftRear, self.rightFront, self.rightRear)
+
         self.drivetrain = drivetrain.MecanumDrive(
             self.leftFront, self.leftRear, self.rightFront, self.rightRear)
         self.drivetrain.rightInverted(True)
+        self.drivetrain.setDeadzone(0.2, 0.2)
 
         # self.rightFront.setInverted(True)
         # self.rightRear.setInverted(True)
@@ -44,13 +46,20 @@ class Robot(wpilib.TimedRobot):
         # Drive for two seconds
         if self.timer.get() < 2.0:
             # Drive forwards at half speed
-            self.drivetrain.MecanumDrive.arcadeDrive(-0.5, 0)
+            self.drivetrain.moveRobot(1, 0, 0)
         else:
-            self.drivetrain.MecanumDrive.arcadeDrive(0, 0)  # Stop robot
+            self.drivetrain.moveRobot(0, 0, 0)
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
-        self.drivetrain.drive(self.stick, 0.2)
+        self.drivetrain.drive(self.stick)
+
+        # toggle button 2
+        if self.stick.getRawButtonPressed(2):
+            if self.drivetrain.speedMultiplier == 1:
+                self.drivetrain.speedMultiplier = 0.5
+            else:
+                self.drivetrain.speedMultiplier = 1
 
 
 if __name__ == "__main__":
