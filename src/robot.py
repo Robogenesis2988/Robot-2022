@@ -6,7 +6,7 @@
 import wpilib
 import wpilib.drive
 
-import drivetrain
+import drivetrain as drivetrain
 
 
 class Robot(wpilib.TimedRobot):
@@ -44,9 +44,9 @@ class Robot(wpilib.TimedRobot):
         """This function is called periodically during autonomous."""
 
         # Drive for two seconds
-        if self.timer.get() < 2.0:
+        if self.timer.get() < 1.0:
             # Drive forwards at half speed
-            self.drivetrain.moveRobot(1, 0, 0)
+            self.drivetrain.moveRobot(1, 90, 0)
         else:
             self.drivetrain.moveRobot(0, 0, 0)
 
