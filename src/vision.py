@@ -1,12 +1,10 @@
-from cscore import CameraServer #need to install cscore, it is on the readthedocs
+#!/usr/bin/env python3
+"""
+    This is a good foundation to build your robot code on
+"""
 
-def main():
-    cs = CameraServer.getInstance()
-    cs.enableLogging()
+import wpilib
 
-    usb1 = cs.startAutomaticCapture(dev=0)
-    usb2 = cs.startAutomaticCapture(dev=1)
-    #two camera streaming to the FRC dashboard program
-    #This needs collaboration with Hardware to test
 
-    cs.waitForever()
+def cameraLaunch():
+    wpilib.CameraServer.launch()
