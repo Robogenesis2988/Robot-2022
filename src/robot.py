@@ -6,7 +6,7 @@
 import wpilib
 import wpilib.drive
 
-import drivetrain as drivetrain
+import drivetrain
 
 
 class Robot(wpilib.TimedRobot):
@@ -58,7 +58,6 @@ class Robot(wpilib.TimedRobot):
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
-        self.drive.driveCartesian(self.stick.getY(), self.stick.getX())
 
         # Toggle pistons on button 3
         if self.stick.getRawButtonPressed(3):

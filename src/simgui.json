@@ -4,6 +4,11 @@
       "window": {
         "visible": true
       }
+    },
+    "Solenoids": {
+      "window": {
+        "visible": true
+      }
     }
   },
   "NTProvider": {
@@ -18,9 +23,6 @@
     },
     "windows": {
       "/SmartDashboard/Field": {
-        "Robot": {
-          "image": "C:\\Users\\robotics\\Documents\\GitHub\\Robot-2022\\2022-field.png"
-        },
         "image": "C:\\Users\\robotics\\Documents\\GitHub\\Robot-2022\\2022-field.png",
         "window": {
           "visible": true
