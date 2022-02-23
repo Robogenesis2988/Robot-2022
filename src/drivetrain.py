@@ -72,7 +72,7 @@ class DriveTrain:
 
         :param twist: the speed of the robot in the z(rotational) axis[-1, 1]
         """
-        raise "THIS SHOULD BE REPLACED!"
+        raise ValueError("THIS SHOULD BE REPLACED!")
 
     def rightInverted(self, isInverted: bool) -> None:
         self.rightFront.setInverted(isInverted)

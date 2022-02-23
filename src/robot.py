@@ -6,7 +6,11 @@
 import wpilib
 import wpilib.drive
 
-import drivetrain as drivetrain
+# our code imports
+import drivetrain
+import pneumatics
+import autonomous
+from vision import cameraLaunch
 
 
 class Robot(wpilib.TimedRobot):
@@ -15,6 +19,17 @@ class Robot(wpilib.TimedRobot):
         This function is called upon program startup and
         should be used for any initialization code.
         """
+        cameraLaunch()
+        # self.solenoidDump = wpilib.DoubleSolenoid(
+        #     wpilib.PneumaticsModuleType.CTREPCM, 1, 0)
+        # self.solenoid2 = wpilib.DoubleSolenoid(
+        #     wpilib.PneumaticsModuleType.CTREPCM, 3, 2)
+        # self.solenoid3 = wpilib.DoubleSolenoid(
+        #     wpilib.PneumaticsModuleType.CTREPCM, 5, 4)
+
+        self.solenoidDump = pneumatics.DoubleSolenoid(1, 0)
+        self.solenoid2 = pneumatics.DoubleSolenoid(3, 2)
+        self.solenoid3 = pneumatics.DoubleSolenoid(5, 4)
 
         self.leftFront = wpilib.Talon(0)
         self.leftRear = wpilib.Talon(1)
@@ -37,29 +52,36 @@ class Robot(wpilib.TimedRobot):
 
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
-        self.timer.reset()
-        self.timer.start()
+        # self.timer.reset()
+        # self.timer.start()
+        autonomous.autonomousInit()
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
 
-        # Drive for two seconds
-        if self.timer.get() < 1.0:
-            # Drive forwards at half speed
-            self.drivetrain.moveRobot(1, 90, 0)
-        else:
-            self.drivetrain.moveRobot(0, 0, 0)
+        # # Drive for two seconds
+        # if self.timer.get() < 1.0:
+        #     # Drive forwards at half speed
+        #     self.drivetrain.moveRobot(1, 90, 0)
+        # else:
+        #     self.drivetrain.moveRobot(0, 0, 0)
+        autonomous.autonomousPeriodic(self.drivetrain)
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
-        self.drivetrain.drive(self.stick)
 
-        # toggle button 2
+        # Toggle pistons on button 3
+        if self.stick.getRawButtonPressed(3):
+            self.solenoidDump.toggle()
+
+        # Toggle speed multiplier on button 2
         if self.stick.getRawButtonPressed(2):
             if self.drivetrain.speedMultiplier == 1:
                 self.drivetrain.speedMultiplier = 0.5
             else:
                 self.drivetrain.speedMultiplier = 1
+
+        self.drivetrain.drive(self.stick)
 
 
 if __name__ == "__main__":
