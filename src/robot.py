@@ -9,6 +9,7 @@ import wpilib.drive
 # our code imports
 import drivetrain
 import pneumatics
+import autonomous
 
 
 class Robot(wpilib.TimedRobot):
@@ -50,18 +51,20 @@ class Robot(wpilib.TimedRobot):
 
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
-        self.timer.reset()
-        self.timer.start()
+        # self.timer.reset()
+        # self.timer.start()
+        autonomous.autonomousInit()
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
 
-        # Drive for two seconds
-        if self.timer.get() < 1.0:
-            # Drive forwards at half speed
-            self.drivetrain.moveRobot(1, 90, 0)
-        else:
-            self.drivetrain.moveRobot(0, 0, 0)
+        # # Drive for two seconds
+        # if self.timer.get() < 1.0:
+        #     # Drive forwards at half speed
+        #     self.drivetrain.moveRobot(1, 90, 0)
+        # else:
+        #     self.drivetrain.moveRobot(0, 0, 0)
+        autonomous.autonomousPeriodic(self.drivetrain)
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
