@@ -8,27 +8,27 @@ class DoubleSolenoid():
 
     """
 
-    class InputMode(Enum):
-        Toggle = auto()
-        Hold = auto()
-
     def __init__(self, openChannel: int, closeChannel: int):
-        """
-
-        """
-        pass
+        self.solenoid = wpilib.DoubleSolenoid(
+            wpilib.PneumaticsModuleType.CTREPCM, openChannel, closeChannel)
 
     def open(self):
         """
         Opens the solenoid
         """
-        pass
+        self.solenoid.set(wpilib.DoubleSolenoid.Value.kForward)
 
     def close(self):
         """
         Closes the solenoid
         """
-        pass
+        self.solenoid.set(wpilib.DoubleSolenoid.Value.kReverse)
+
+    def disable(self):
+        """
+        Turns off the solenoid
+        """
+        self.solenoid.set(wpilib.DoubleSolenoid.Value.kOff)
 
     def getState(self) -> bool:
         """
@@ -37,6 +37,7 @@ class DoubleSolenoid():
         False - closed
         True - open
         """
+        return self.solenoid.get() == wpilib.DoubleSolenoid.Value.kForward
 
     def setState(self, state: bool):
         """
@@ -46,6 +47,15 @@ class DoubleSolenoid():
         True - open
         """
         if state:
+            self.open()
+        else:
+            self.close()
+
+    def toggle(self):
+        """
+        Toggles the state of the solenoid
+        """
+        if not self.getState():
             self.open()
         else:
             self.close()

@@ -6,7 +6,9 @@
 import wpilib
 import wpilib.drive
 
+# our code imports
 import drivetrain
+import pneumatics
 
 
 class Robot(wpilib.TimedRobot):
@@ -16,12 +18,16 @@ class Robot(wpilib.TimedRobot):
         should be used for any initialization code.
         """
 
-        self.solenoidDump = wpilib.DoubleSolenoid(
-            wpilib.PneumaticsModuleType.CTREPCM, 1, 0)
-        self.solenoid2 = wpilib.DoubleSolenoid(
-            wpilib.PneumaticsModuleType.CTREPCM, 3, 2)
-        self.solenoid3 = wpilib.DoubleSolenoid(
-            wpilib.PneumaticsModuleType.CTREPCM, 5, 4)
+        # self.solenoidDump = wpilib.DoubleSolenoid(
+        #     wpilib.PneumaticsModuleType.CTREPCM, 1, 0)
+        # self.solenoid2 = wpilib.DoubleSolenoid(
+        #     wpilib.PneumaticsModuleType.CTREPCM, 3, 2)
+        # self.solenoid3 = wpilib.DoubleSolenoid(
+        #     wpilib.PneumaticsModuleType.CTREPCM, 5, 4)
+
+        self.solenoidDump = pneumatics.DoubleSolenoid(1, 0)
+        self.solenoid2 = pneumatics.DoubleSolenoid(3, 2)
+        self.solenoid3 = pneumatics.DoubleSolenoid(5, 4)
 
         self.leftFront = wpilib.Talon(0)
         self.leftRear = wpilib.Talon(1)
@@ -62,10 +68,8 @@ class Robot(wpilib.TimedRobot):
         # Toggle pistons on button 3
         if self.stick.getRawButtonPressed(3):
             self.solenoidDump.toggle()
-            if self.solenoidDump.get() == self.solenoidDump.Value.kOff:
-                self.solenoidDump.set(self.solenoidDump.Value.kForward)
 
-        # Toggel speed multiplier on button 2
+        # Toggle speed multiplier on button 2
         if self.stick.getRawButtonPressed(2):
             if self.drivetrain.speedMultiplier == 1:
                 self.drivetrain.speedMultiplier = 0.5
