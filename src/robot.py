@@ -10,6 +10,7 @@ import wpilib.drive
 import drivetrain
 import pneumatics
 import autonomous
+from vision import cameraLaunch
 
 
 class Robot(wpilib.TimedRobot):
@@ -18,7 +19,7 @@ class Robot(wpilib.TimedRobot):
         This function is called upon program startup and
         should be used for any initialization code.
         """
-
+        cameraLaunch()
         # self.solenoidDump = wpilib.DoubleSolenoid(
         #     wpilib.PneumaticsModuleType.CTREPCM, 1, 0)
         # self.solenoid2 = wpilib.DoubleSolenoid(
