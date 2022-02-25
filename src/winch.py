@@ -8,7 +8,7 @@ class winch:
         self.rightWinch.setInverted(True)
 
         self.timer = wpilib.Timer()
-        self.time = 0 
+        self.time = 5
 
     def winchExtend(self):
         self.leftWinch.set(.5)
@@ -27,10 +27,8 @@ class winch:
         self.winchRetract()
 
     def winchRetractTimed(self):
-        self.leftWinch.set(.5)
-        self.rightWinch.set(.5)
+        self.winchRetract()
         self.timer.hasElapsed(self.time)
-        self.leftWinch.set(0)
-        self.rightWinch.set(0)
+        self.winchStop()
 
 
