@@ -3,6 +3,7 @@
     This is a good foundation to build your robot code on
 """
 
+from enum import Enum
 import wpilib
 import wpilib.drive
 
@@ -10,6 +11,8 @@ import wpilib.drive
 import drivetrain
 import pneumatics
 import autonomous
+import winch
+import ports
 from vision import cameraLaunch
 
 
@@ -27,14 +30,21 @@ class Robot(wpilib.TimedRobot):
         # self.solenoid3 = wpilib.DoubleSolenoid(
         #     wpilib.PneumaticsModuleType.CTREPCM, 5, 4)
 
-        self.solenoidDump = pneumatics.DoubleSolenoid(1, 0)
+        self.solenoidDump = pneumatics.DoubleSolenoid(
+            *ports.PneumaticPorts.DUMP)
         self.solenoid2 = pneumatics.DoubleSolenoid(3, 2)
         self.solenoid3 = pneumatics.DoubleSolenoid(5, 4)
 
-        self.leftFront = wpilib.Talon(0)
-        self.leftRear = wpilib.Talon(1)
-        self.rightFront = wpilib.Talon(2)
-        self.rightRear = wpilib.Talon(3)
+        self.leftFront = wpilib.Talon(ports.MotorPorts.LEFT_FRONT)
+        self.leftRear = wpilib.Talon(ports.MotorPorts.LEFT_REAR)
+        self.rightFront = wpilib.Talon(ports.MotorPorts.RIGHT_FRONT)
+        self.rightRear = wpilib.Talon(ports.MotorPorts.RIGHT_REAR)
+
+        self.leftWinchMotor = wpilib.Spark(ports.MotorPorts.LEFT_WINCH)
+        self.rightWinchMotor = wpilib.Talon(ports.MotorPorts.RIGHT_WINCH)
+
+        self.leftWinch = winch.Winch(self.leftWinchMotor)
+        self.rightWinch = winch.Winch(self.rightWinchMotor)
 
         # self.drive = wpilib.drive.MecanumDrive(self.leftFront, self.leftRear, self.rightFront, self.rightRear)
 
@@ -80,6 +90,15 @@ class Robot(wpilib.TimedRobot):
                 self.drivetrain.speedMultiplier = 0.5
             else:
                 self.drivetrain.speedMultiplier = 1
+
+        # Button 4 hold -> climber down
+        if self.stick.getRawButton(4):
+            self.leftWinch.winchRetract()
+        # Button 6 hold -> climber up
+        elif self.stick.getRawButton(6):
+            self.leftWinch.winchExtend()
+        else:
+            self.leftWinch.winchStop()
 
         self.drivetrain.drive(self.stick)
 

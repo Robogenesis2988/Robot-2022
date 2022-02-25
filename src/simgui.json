@@ -15,10 +15,15 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Ungrouped/MecanumDrive[1]": "MecanumDrive",
+      "/LiveWindow/Ungrouped/Spark[4]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Spark[5]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon[0]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon[1]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon[2]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon[3]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon[4]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon[5]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon[6]": "Motor Controller",
       "/SmartDashboard/Field": "Field2d"
     },
     "windows": {
