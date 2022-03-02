@@ -33,8 +33,10 @@ class Robot(wpilib.TimedRobot):
 
         self.solenoidDump = pneumatics.DoubleSolenoid(
             *ports.PneumaticPorts.DUMP)
-        self.solenoid2 = pneumatics.DoubleSolenoid(ports.PneumaticPorts.CLIMB1)
-        self.solenoid3 = pneumatics.DoubleSolenoid(ports.PneumaticPorts.CLIMB2)
+        self.solenoid2 = pneumatics.DoubleSolenoid(
+            *ports.PneumaticPorts.CLIMB1)
+        self.solenoid3 = pneumatics.DoubleSolenoid(
+            *ports.PneumaticPorts.CLIMB2)
 
         self.leftFront = wpilib.Talon(ports.MotorPorts.LEFT_FRONT)
         self.leftRear = wpilib.Talon(ports.MotorPorts.LEFT_REAR)
