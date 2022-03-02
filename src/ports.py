@@ -12,3 +12,8 @@ class MotorPorts():
 
 class PneumaticPorts():
     DUMP = (0, 1)
+    CLIMB1 = (3, 2)
+    CLIMB2 = (5, 4)
+
+class JoystickPorts():
+    JOY = 0 

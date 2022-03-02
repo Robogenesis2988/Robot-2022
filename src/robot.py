@@ -14,6 +14,7 @@ import autonomous
 import winch
 import ports
 from vision import cameraLaunch
+import ports
 
 
 class Robot(wpilib.TimedRobot):
@@ -32,8 +33,10 @@ class Robot(wpilib.TimedRobot):
 
         self.solenoidDump = pneumatics.DoubleSolenoid(
             *ports.PneumaticPorts.DUMP)
-        self.solenoid2 = pneumatics.DoubleSolenoid(3, 2)
-        self.solenoid3 = pneumatics.DoubleSolenoid(5, 4)
+        self.solenoid2 = pneumatics.DoubleSolenoid(
+            *ports.PneumaticPorts.CLIMB1)
+        self.solenoid3 = pneumatics.DoubleSolenoid(
+            *ports.PneumaticPorts.CLIMB2)
 
         self.leftFront = wpilib.Talon(ports.MotorPorts.LEFT_FRONT)
         self.leftRear = wpilib.Talon(ports.MotorPorts.LEFT_REAR)
@@ -56,7 +59,7 @@ class Robot(wpilib.TimedRobot):
         # self.rightFront.setInverted(True)
         # self.rightRear.setInverted(True)
 
-        self.stick = wpilib.Joystick(0)
+        self.stick = wpilib.Joystick(ports.JoystickPorts.JOY)
 
         self.timer = wpilib.Timer()
 
