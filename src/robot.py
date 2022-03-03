@@ -33,9 +33,9 @@ class Robot(wpilib.TimedRobot):
 
         self.solenoidDump = pneumatics.DoubleSolenoid(
             *ports.PneumaticPorts.DUMP)
-        self.solenoid2 = pneumatics.DoubleSolenoid(
+        self.solenoidClimb1 = pneumatics.DoubleSolenoid(
             *ports.PneumaticPorts.CLIMB1)
-        self.solenoid3 = pneumatics.DoubleSolenoid(
+        self.solenoidClimb2 = pneumatics.DoubleSolenoid(
             *ports.PneumaticPorts.CLIMB2)
 
         self.leftFront = wpilib.Talon(ports.MotorPorts.LEFT_FRONT)
@@ -43,8 +43,8 @@ class Robot(wpilib.TimedRobot):
         self.rightFront = wpilib.Talon(ports.MotorPorts.RIGHT_FRONT)
         self.rightRear = wpilib.Talon(ports.MotorPorts.RIGHT_REAR)
 
-        self.leftWinchMotor = wpilib.Spark(ports.MotorPorts.LEFT_WINCH)
-        self.rightWinchMotor = wpilib.Talon(ports.MotorPorts.RIGHT_WINCH)
+        self.leftWinchMotor = wpilib.PWMSparkMax(ports.MotorPorts.LEFT_WINCH)
+        self.rightWinchMotor = wpilib.PWMSparkMax(ports.MotorPorts.RIGHT_WINCH)
 
         self.leftWinch = winch.Winch(self.leftWinchMotor)
         self.rightWinch = winch.Winch(self.rightWinchMotor)
@@ -87,6 +87,10 @@ class Robot(wpilib.TimedRobot):
         if self.stick.getRawButtonPressed(3):
             self.solenoidDump.toggle()
 
+        if self.stick.getRawButtonPressed(5):
+            self.solenoidClimb1.toggle()
+            self.solenoidClimb2.toggle()
+
         # Toggle speed multiplier on button 2
         if self.stick.getRawButtonPressed(2):
             if self.drivetrain.speedMultiplier == 1:
@@ -97,11 +101,14 @@ class Robot(wpilib.TimedRobot):
         # Button 4 hold -> climber down
         if self.stick.getRawButton(4):
             self.leftWinch.winchRetract()
+            self.rightWinch.winchRetract()
         # Button 6 hold -> climber up
         elif self.stick.getRawButton(6):
             self.leftWinch.winchExtend()
+            self.rightWinch.winchExtend()
         else:
             self.leftWinch.winchStop()
+            self.rightWinch.winchStop()
 
         self.drivetrain.drive(self.stick)
 
