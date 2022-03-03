@@ -33,9 +33,9 @@ class Robot(wpilib.TimedRobot):
 
         self.solenoidDump = pneumatics.DoubleSolenoid(
             *ports.PneumaticPorts.DUMP)
-        self.solenoid2 = pneumatics.DoubleSolenoid(
+        self.solenoidClimb1 = pneumatics.DoubleSolenoid(
             *ports.PneumaticPorts.CLIMB1)
-        self.solenoid3 = pneumatics.DoubleSolenoid(
+        self.solenoidClimb2 = pneumatics.DoubleSolenoid(
             *ports.PneumaticPorts.CLIMB2)
 
         self.leftFront = wpilib.Talon(ports.MotorPorts.LEFT_FRONT)
@@ -43,8 +43,9 @@ class Robot(wpilib.TimedRobot):
         self.rightFront = wpilib.Talon(ports.MotorPorts.RIGHT_FRONT)
         self.rightRear = wpilib.Talon(ports.MotorPorts.RIGHT_REAR)
 
-        self.leftWinchMotor = wpilib.Spark(ports.MotorPorts.LEFT_WINCH)
-        self.rightWinchMotor = wpilib.Talon(ports.MotorPorts.RIGHT_WINCH)
+        self.leftWinchMotor = wpilib.PWMSparkMax(ports.MotorPorts.LEFT_WINCH)
+        self.rightWinchMotor = wpilib.PWMSparkMax(ports.MotorPorts.RIGHT_WINCH)
+        self.rightWinchMotor.setInverted(True)
 
         self.leftWinch = winch.Winch(self.leftWinchMotor)
         self.rightWinch = winch.Winch(self.rightWinchMotor)
@@ -65,43 +66,63 @@ class Robot(wpilib.TimedRobot):
 
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
-        # self.timer.reset()
-        # self.timer.start()
-        autonomous.autonomousInit()
+        self.timer.reset()
+        self.timer.start()
+        # autonomous.autonomousInit()
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
 
-        # # Drive for two seconds
+        if self.timer.get() < 3:
+            # drives foward for one second at 1/4 speed
+            self.drivetrain.moveRobot(.25, 0, 0)
+        elif (self.timer.get() > 3) and (self.timer.get() < 6):
+            # from 1 - 4 seconds the solenoid extends
+            self.solenoidDump.open()
+        # if self.solenoid1.get() == self.solenoid1.Value.kOff:
+            # self.solenoid1.set(self.solenoid1.Value.kForward)
+        elif (self.timer.get() > 6) and (self.timer.get() < 8):
+            self.solenoidDump.close()
+        elif (self.timer.get() > 8) and (self.timer.get() < 10):
+            self.drivetrain.moveRobot(-.25, 0, 0)
+        elif (self.timer.get() > 10) and (self.timer.get() < 12):
+            self.drivetrain.moveRobot(0, 0, .72)
         # if self.timer.get() < 1.0:
-        #     # Drive forwards at half speed
+        #     # Drive forwards at half speeds
         #     self.drivetrain.moveRobot(1, 90, 0)
         # else:
         #     self.drivetrain.moveRobot(0, 0, 0)
-        autonomous.autonomousPeriodic(self.drivetrain)
+        # autonomous.autonomousPeriodic(self.drivetrain)
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
 
         # Toggle pistons on button 3
-        if self.stick.getRawButtonPressed(3):
+        if self.stick.getRawButtonPressed(ports.JoystickButtons.DUMPTOGGLE):
             self.solenoidDump.toggle()
 
+        if self.stick.getRawButtonPressed(ports.JoystickButtons.CLIMBPISTONTOGGLE):
+            self.solenoidClimb1.toggle()
+            self.solenoidClimb2.toggle()
+
         # Toggle speed multiplier on button 2
-        if self.stick.getRawButtonPressed(2):
+        if self.stick.getRawButtonPressed(ports.JoystickButtons.SPEEDMULTIPLIER):
             if self.drivetrain.speedMultiplier == 1:
                 self.drivetrain.speedMultiplier = 0.5
             else:
                 self.drivetrain.speedMultiplier = 1
 
         # Button 4 hold -> climber down
-        if self.stick.getRawButton(4):
+        if self.stick.getRawButton(ports.JoystickButtons.WINCHRETRACT):
             self.leftWinch.winchRetract()
+            self.rightWinch.winchRetract()
         # Button 6 hold -> climber up
-        elif self.stick.getRawButton(6):
+        elif self.stick.getRawButton(ports.JoystickButtons.WINCHEXTEND):
             self.leftWinch.winchExtend()
+            self.rightWinch.winchExtend()
         else:
             self.leftWinch.winchStop()
+            self.rightWinch.winchStop()
 
         self.drivetrain.drive(self.stick)
 

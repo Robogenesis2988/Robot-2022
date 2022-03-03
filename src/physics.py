@@ -27,6 +27,9 @@ class PhysicsEngine:
         self.rf_motor = wpilib.simulation.PWMSim(2)
         self.rr_motor = wpilib.simulation.PWMSim(3)
 
+        self.lwinch = wpilib.simulation.PWMSim(4)
+        self.rwinch = wpilib.simulation.PWMSim(5)
+
         # Gyro
         self.gyro = wpilib.simulation.AnalogGyroSim(1)
 
