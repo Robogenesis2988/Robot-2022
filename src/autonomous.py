@@ -1,17 +1,15 @@
 import wpilib
 import wpilib.drive
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
+
 class autonomous:
 
     def __init__(self):
         self.timer = wpilib.Timer
 
     def autnomousInit(self):
-        self.timer.reset
-        self.timer.start
+        self.timer.reset()
+        self.timer.start()
 
     def autonomousPeriodic(self):
         if self.timer.get() < 1:
