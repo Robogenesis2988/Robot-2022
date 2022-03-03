@@ -15,6 +15,8 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Ungrouped/MecanumDrive[1]": "MecanumDrive",
+      "/LiveWindow/Ungrouped/PWMSparkMax[4]": "Motor Controller",
+      "/LiveWindow/Ungrouped/PWMSparkMax[5]": "Motor Controller",
       "/LiveWindow/Ungrouped/Spark[4]": "Motor Controller",
       "/LiveWindow/Ungrouped/Spark[5]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon[0]": "Motor Controller",

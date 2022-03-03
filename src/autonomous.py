@@ -1,46 +1,27 @@
 import wpilib
 import wpilib.drive
 
-
-class autonomous:
-
-    def __init__(self):
-        self.timer = wpilib.Timer
-
-    def autnomousInit(self):
-        self.timer.reset()
-        self.timer.start()
-
-    def autonomousPeriodic(self):
-        if self.timer.get() < 1:
-            self.drive.drivePolar(.25,0,0) #drives foward for one second at 1/4 speed
-        elif (self.timer.get() > 1) & (self.timer.get() < 4):
-            self.solenoid1.set(self.solenoid1.Value.kForward) #from 1 - 4 seconds the solenoid extends 
-           # if self.solenoid1.get() == self.solenoid1.Value.kOff:
-                #self.solenoid1.set(self.solenoid1.Value.kForward)
-        elif (self.timer.get() > 4) & (self.timer.get() < 6):
-            self.solenoid1.set(self.solenoid1.Value.kReverse)
-        elif (self.timer.get() > 6) & (self.timer.get() < 8):
-            self.drive.drivePolar(0,0,.72)
-=======
->>>>>>> Stashed changes
 from drivetrain import DriveTrain
 
 
-timer = wpilib.Timer()
 
+timer = wpilib.Timer
 
-def autonomousInit():
-    """This function is run once each time the robot enters autonomous mode."""
-    timer.reset()
-    timer.start()
+#def autnomousInit():
+#    timer.reset()
+#    timer.start()
 
-
-def autonomousPeriodic(driveTrain: DriveTrain) -> None:
-    if timer.get() < 2:
-        driveTrain.moveRobot(1, 90, 0)
-    else:
-        driveTrain.moveRobot(0, 0, 0)
+#def autonomousPeriodic(drive: DriveTrain):
+#    if timer.get() < 2:
+#        drive.drivePolar(.25,0,0) #drives foward for one second at 1/4 speed
+#    elif (timer.get() > 2) & (timer.get() < 4):
+#        solenoidClimb1.set(solenoid1.Value.kForward) #from 1 - 4 seconds the solenoid extends 
+#        # if self.solenoid1.get() == self.solenoid1.Value.kOff:
+            #self.solenoid1.set(self.solenoid1.Value.kForward)
+#    elif (timer.get() > 4) & (timer.get() < 6):
+#        self.solenoid1.set(self.solenoid1.Value.kReverse)
+#    elif (timer.get() > 6) & (timer.get() < 8):
+#        drive.drivePolar(0,0,.72)
 
 # class TimedAutonomous():
 #     auto_actions = []
@@ -69,7 +50,3 @@ def autonomousPeriodic(driveTrain: DriveTrain) -> None:
 #         action - The function to run
 #         """
 #         auto_actions.append((startTime, action))
-<<<<<<< Updated upstream
-=======
->>>>>>> f89df4a156cf2a94f7df8d6ae64d7d53dd175672
->>>>>>> Stashed changes
