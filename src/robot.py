@@ -43,9 +43,9 @@ class Robot(wpilib.TimedRobot):
         self.rightFront = wpilib.Talon(ports.MotorPorts.RIGHT_FRONT)
         self.rightRear = wpilib.Talon(ports.MotorPorts.RIGHT_REAR)
 
-        self.leftWinchMotor = wpilib.PWMSparkMax(ports.MotorPorts.LEFT_WINCH)
-        self.rightWinchMotor = wpilib.PWMSparkMax(ports.MotorPorts.RIGHT_WINCH)
-        self.rightWinchMotor.setInverted(True)
+        self.leftWinchMotor = wpilib.Talon(ports.MotorPorts.LEFT_WINCH)
+        self.rightWinchMotor = wpilib.Spark(ports.MotorPorts.RIGHT_WINCH)
+        # self.rightWinchMotor.setInverted(True)
 
         self.leftWinch = winch.Winch(self.leftWinchMotor)
         self.rightWinch = winch.Winch(self.rightWinchMotor)
@@ -55,7 +55,7 @@ class Robot(wpilib.TimedRobot):
         self.drivetrain = drivetrain.MecanumDrive(
             self.leftFront, self.leftRear, self.rightFront, self.rightRear)
         self.drivetrain.rightInverted(True)
-        self.drivetrain.setDeadzone(0.2, 0.2)
+        self.drivetrain.setDeadzone(0.5, 0.5)
 
         # self.rightFront.setInverted(True)
         # self.rightRear.setInverted(True)
@@ -94,8 +94,17 @@ class Robot(wpilib.TimedRobot):
         #     self.drivetrain.moveRobot(0, 0, 0)
         # autonomous.autonomousPeriodic(self.drivetrain)
 
+    def teleopInit(self) -> None:
+        self.timer.reset()
+        self.timer.start()
+
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
+
+        # Test code
+        # self.timer.reset()
+        # self.timer.start()
+        # self.drivetrain.motorTest(self.timer)
 
         # Toggle pistons on button 3
         if self.stick.getRawButtonPressed(ports.JoystickButtons.DUMPTOGGLE):
@@ -116,13 +125,23 @@ class Robot(wpilib.TimedRobot):
         if self.stick.getRawButton(ports.JoystickButtons.WINCHRETRACT):
             self.leftWinch.winchRetract()
             self.rightWinch.winchRetract()
+            # self.leftWinchMotor.set(0.1)
+            # self.rightWinchMotor.set(0.1)
+
         # Button 6 hold -> climber up
         elif self.stick.getRawButton(ports.JoystickButtons.WINCHEXTEND):
             self.leftWinch.winchExtend()
             self.rightWinch.winchExtend()
+            # print("go!")
+            # self.leftWinchMotor.set(0.1)
+            # self.solenoidDump.open()
+            # self.rightWinchMotor.set(-0.1)
+
         else:
             self.leftWinch.winchStop()
             self.rightWinch.winchStop()
+            # self.leftWinchMotor.set(0)
+            # self.rightWinchMotor.set(0)
 
         self.drivetrain.drive(self.stick)
 
