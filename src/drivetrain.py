@@ -22,6 +22,7 @@ class DriveTrain:
     deadzone_twist: float = 0
     deadzone_mode: DeadzoneMode = DeadzoneMode.CUTOFF
     speedMultiplier: float = 1
+    twistMultiplier: float = 1
 
     def __init__(self, leftFront: wpilib.interfaces.MotorController, leftRear: wpilib.interfaces.MotorController, rightFront: wpilib.interfaces.MotorController, rightRear: wpilib.interfaces.MotorController) -> None:
         self.leftFront = leftFront
@@ -44,7 +45,7 @@ class DriveTrain:
             rotate = 0
 
         mag *= self.speedMultiplier
-        rotate *= self.speedMultiplier
+        rotate *= self.twistMultiplier
         return [mag, angle, rotate]
 
     def setDeadzone(self, deadzone_move: float, deadzone_twist: float, deadzone_mode: DeadzoneMode = DeadzoneMode.CUTOFF):
