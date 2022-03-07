@@ -7,20 +7,23 @@ class MotorPorts():
 
     # Winch motors
     LEFT_WINCH = 5
-    RIGHT_WINCH = 5
+    RIGHT_WINCH = 4
 
 
 class PneumaticPorts():
-    DUMP = (0, 1)
-    CLIMB1 = (3, 2)
-    CLIMB2 = (5, 4)
+    # Used Ports: 0,1,2,3,7,6
+    DUMP = (1, 0)
+    CLIMB1 = (2, 3)
+    CLIMB2 = (6, 7)
+
 
 class JoystickPorts():
-    JOY = 0 
+    JOY = 0
+
 
 class JoystickButtons():
-    WINCHEXTEND = 6 
+    WINCHEXTEND = 6
     WINCHRETRACT = 4
-    CLIMBPISTONTOGGLE = 5 
-    DUMPTOGGLE = 3 
+    CLIMBPISTONTOGGLE = 5
+    DUMPTOGGLE = 3
     SPEEDMULTIPLIER = 2

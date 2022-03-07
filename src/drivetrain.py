@@ -22,6 +22,7 @@ class DriveTrain:
     deadzone_twist: float = 0
     deadzone_mode: DeadzoneMode = DeadzoneMode.CUTOFF
     speedMultiplier: float = 1
+    twistMultiplier: float = 1
 
     def __init__(self, leftFront: wpilib.interfaces.MotorController, leftRear: wpilib.interfaces.MotorController, rightFront: wpilib.interfaces.MotorController, rightRear: wpilib.interfaces.MotorController) -> None:
         self.leftFront = leftFront
@@ -44,7 +45,7 @@ class DriveTrain:
             rotate = 0
 
         mag *= self.speedMultiplier
-        rotate *= self.speedMultiplier
+        rotate *= self.twistMultiplier
         return [mag, angle, rotate]
 
     def setDeadzone(self, deadzone_move: float, deadzone_twist: float, deadzone_mode: DeadzoneMode = DeadzoneMode.CUTOFF):
@@ -81,6 +82,25 @@ class DriveTrain:
     def leftInverted(self, isInverted: bool) -> None:
         self.leftFront.setInverted(isInverted)
         self.leftRear.setInverted(isInverted)
+
+    def motorTest(self, timer: wpilib.Timer) -> None:
+        # Test each motor one by one
+        # FR FL RR RL
+        duration = 3
+        speed = 0.4
+
+        self.rightFront.set(speed)
+        if timer.get() > duration*4:
+            self.leftRear.stopMotor()
+        elif timer.get() > duration*3:
+            self.rightRear.stopMotor()
+            self.leftRear.set(speed)
+        elif timer.get() > duration*2:
+            self.leftFront.stopMotor()
+            self.rightRear.set(speed)
+        elif timer.get() > duration*1:
+            self.rightFront.stopMotor()
+            self.leftFront.set(speed)
 
 
 class MecanumDrive(DriveTrain):
