@@ -130,6 +130,11 @@ class Robot(wpilib.TimedRobot):
             else:
                 self.drivetrain.speedMultiplier = 0.75
 
+            if self.drivetrain.twistMultiplier == 0.75:
+                self.drivetrain.twistMultiplier = 0.5
+            else:
+                self.drivetrain.twistMultiplier = 0.75
+
         # Button 4 hold -> climber down
         # if self.stick.getRawButton(ports.JoystickButtons.WINCHRETRACT):
         #     self.leftWinch.winchRetract()
