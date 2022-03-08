@@ -7,6 +7,8 @@ import wpilib.simulation
 from pyfrc.physics.core import PhysicsInterface
 from pyfrc.physics import drivetrains
 
+import ports
+
 
 class PhysicsEngine:
     """
@@ -22,13 +24,13 @@ class PhysicsEngine:
         self.physics_controller = physics_controller
 
         # Motors
-        self.lf_motor = wpilib.simulation.PWMSim(0)
-        self.lr_motor = wpilib.simulation.PWMSim(1)
-        self.rf_motor = wpilib.simulation.PWMSim(2)
-        self.rr_motor = wpilib.simulation.PWMSim(3)
+        self.lf_motor = wpilib.simulation.PWMSim(ports.MotorPorts.LEFT_FRONT)
+        self.lr_motor = wpilib.simulation.PWMSim(ports.MotorPorts.LEFT_REAR)
+        self.rf_motor = wpilib.simulation.PWMSim(ports.MotorPorts.RIGHT_FRONT)
+        self.rr_motor = wpilib.simulation.PWMSim(ports.MotorPorts.RIGHT_REAR)
 
-        self.lwinch = wpilib.simulation.PWMSim(4)
-        self.rwinch = wpilib.simulation.PWMSim(5)
+        self.lwinch = wpilib.simulation.PWMSim(ports.MotorPorts.LEFT_WINCH)
+        self.rwinch = wpilib.simulation.PWMSim(ports.MotorPorts.RIGHT_WINCH)
 
         # Gyro
         self.gyro = wpilib.simulation.AnalogGyroSim(1)
